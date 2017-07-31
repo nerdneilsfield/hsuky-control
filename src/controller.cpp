@@ -7,45 +7,52 @@ int ReadState()
     std::ifstream ifs("/var/ros/controller");
     std::string content((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>() ));
     // if state changed, write to console.
-    if (!content.compare(last_state))
+    //ROS_INFO("%s" ,content.c_str());
+    content = content.substr(0,4);
+    if (content.compare(last_state) != 0)
     {
-        ROSINFO(content);
+        ROS_INFO("%s" ,content.c_str());
+	last_state = content;
     }
+    //ROS_INFO("%s" ,content.c_str());
+    //ROS_INFO("%ld", forward.length());
+    //ROS_INFO("%ld", content.length());
     // from state to statecode
-    if( content.compare("stop") ){
+    if ( content == stop ){
         return 0;
     }
-    if( content.compare("forward")){
+    if(  content == forward  ){
         return 1;
     }
-    if (content.compare("backforward"))
+    if (content == backforward)
     {
         return 2;
     }
-    if (content.compare("turnleft"))
+    if (content == turnleft)
     {
         return 3;
     }
-    if (content.compare("turnright"))
+    if (content == turnright)
     {
         return 4;
     }
-    if (content.compare("highforward"))
+    if (content == highforward)
     {
         return 5;
     }
-    if (content.compare("highback"))
+    if (content == highbackforward)
     {
         return 6;
     }
-    if (content.compare("highleft"))
+    if (content == highturnleft)
     {
         return 7;
     }
-    if (content.compare("highright"))
+    if (content == highturnright)
     {
         return 8;
     }
+	return 0;
 }
 
 int main(int argc, char** argv){
@@ -59,6 +66,7 @@ int main(int argc, char** argv){
   while (ros::ok())
   {
     state  = ReadState();
+    //ROS_INFO("%d", state);
     //from state to twist message.
     switch(state){
         case 0:
@@ -66,36 +74,36 @@ int main(int argc, char** argv){
             twist.angular.z = 0;
             break;
         case 1:
-            twist.linear.x = 0;            
+            twist.linear.x = 0.4;            
             twist.angular.z = 0;
             break;
         case 2:
-            twist.linear.x = 0;            
+            twist.linear.x = -0.4;            
             twist.angular.z = 0;
             break;
         case 3:
             twist.linear.x = 0;            
-            twist.angular.z = 0;
+            twist.angular.z = 0.3;
             break;
         case 4:
             twist.linear.x = 0;            
-            twist.angular.z = 0;
+            twist.angular.z = -0.3;
             break;
         case 5:
-            twist.linear.x = 0;            
+            twist.linear.x = 1;            
             twist.angular.z = 0;
             break;
         case 6:
-            twist.linear.x = 0;            
+            twist.linear.x = -1;            
             twist.angular.z = 0;
             break;
         case 7:
             twist.linear.x = 0;            
-            twist.angular.z = 0;
+            twist.angular.z = 0.6;
             break;
         case 8:
             twist.linear.x = 0;            
-            twist.angular.z = 0;
+            twist.angular.z = -0.6;
             break;
         default:
             twist.linear.x = 0;            
