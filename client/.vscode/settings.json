@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.m": "matlab",
+        "*.mdk": "markdown",
+        "xlocale": "cpp",
+        "iostream": "cpp"
+    }
+}
