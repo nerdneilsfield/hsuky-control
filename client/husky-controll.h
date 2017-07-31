@@ -4,7 +4,7 @@
 #include <string>
 #include "json.hpp"
 #include "cpr/cpr.h"
-
+#include <sstream>
 
 namespace control {
 
@@ -14,12 +14,13 @@ void controlInit( char * initIp) {
     ip = initIp;
 }
 
-bool postCommand(char * command) {
-    nlohmann::json my_json = nlohmann::json::object {
-                {"Command", command}
-        };
+bool postCommand(std::string  command) {
+    //nlohmann::json my_json = nlohmann::json::object{
+    //            {"Command", command}
+    //    };
+    std::string postCommand = "{'Command' : " + command + "'}";
     auto r = cpr::Post(cpr::Url{ip},
-                   cpr::Body{"{ 'Command' : '{%s}' }", command},
+                   cpr::Body{postCommand},
                    cpr::Header{{"Content-Type", "application/json"}});
     auto json = nlohmann::json::parse(r.text);
     bool result = json["result"];
