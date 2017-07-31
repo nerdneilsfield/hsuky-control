@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "*.m": "matlab",
+        "*.mdk": "markdown",
+        "iosfwd": "cpp",
+        "xstring": "cpp",
+        "xlocale": "cpp",
+        "xutility": "cpp"
+    }
+}
